@@ -1,0 +1,52 @@
+<link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/semantic-ui/2.2.6/semantic.min.css">
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Qr Generator</title>
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+            var socket = io();
+            
+            function handleChange(){
+                socket.emit('qr',document.getElementById('m').value)
+            }
+            socket.on('messages',function(object_data){
+                console.log(object_data)
+                let messages = document.getElementById('messages')       
+                messages.insertAdjacentHTML('afterbegin', '<div class="ui card"><div class="image"><img width="200" src="images/'+object_data.name+'.svg"></div><div class="content"><a class="header">Kristy</a> <div class="description">'+object_data.message+'</div> </div></div>')
+            })
+        </script>
+        <link rel="stylesheet" href="css/semantic.css">
+    </head>
+    <body>
+
+        <div class="ui segment">
+            <form action="" class="ui form">
+                <h4 class="ui dividing header">!!! Qr Generator</h4>
+                <textarea id="m" class="ui input" autocomplete="off"
+                    onchange="handleChange()"></textarea>
+                <div class="ui segment">
+                    <button id="save" class="ui primary button">
+                        Save
+                    </button>
+                    <!-- <button onclick="myFunction()" class="ui button">
+                        Discard
+                    </button> -->
+                </div>
+            </form>
+        </div>
+
+        <div id="messages" class="ui three cards">
+
+        </div>
+        <script>
+            document.getElementById("save").addEventListener("click", 
+                function(e){
+
+                    e.preventDefault();
+                    console.log('event')
+            })
+        </script>
+    </body>
+</html>
